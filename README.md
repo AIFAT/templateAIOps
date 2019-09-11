@@ -1,6 +1,10 @@
 # templateAIOps
 
-The intent of this repo is to make it easier and faster to set up a github repo in your org for Responsible AI projects. This includes:
+The intent of this repo is to make it easier and faster to set up a github repo in your org for Responsible AI projects.
+
+** NOTE: ** This repo is a work in progress!
+
+ This repo includes:
 - consistent repo metrics
     - capturing Github provided metrics
     - aggregate and report
@@ -13,7 +17,7 @@ Folders and files:
 - LICENSE.md - MIT license
 - README.md - info for repo. This README.md will document how to personalize the repo.
 - SECURITY.md - Microsoft security recommendation
-- 
+
 - Test
     - create expected test types and pipeline naming, folder hierarchy and format
 - Contrib - MS or not?
@@ -37,7 +41,7 @@ Recommend Issue templates:
 - Recommend both Bug Report and Feature Request Templates
 
 Suggested content:
-'''
+```
 Bug Report
 ### Description
 <!--- Describe your issue/bug/request in detail -->
@@ -71,7 +75,7 @@ Suggested Feature Request:
 <!--- *Adding algorithm xxx will help people understand more about xxx use case scenarios. -->
 
 ### Other Comments
-'''
+```
 
 
 

@@ -1,0 +1,72 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+#
+# Note: cpu is included below. gpu can be added later as needed.
+
+variables:
+
+trigger: none
+
+pr: none # set up cron in the devops ui
+
+
+jobs:
+- job : Smoke
+  displayName : 'Smoke: nightly_cpu_test'
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+# vars specific to this job
+  variables:
+  - group: AzureKeyVaultSecrets
+
+  steps:
+
+  - template: env-setup.yml # template reference
+
+  - script: | 
+    Set up conda environment && \
+    pytest tests/unit -m "yourtestmarkers" --junitxml=reports/test-unit.xml && \
+    conda deactivate
+    displayName: 'pytest'
+
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results **/test-*.xml'
+    inputs:
+      testResultsFiles: '**/test-*.xml'
+      failTaskOnFailedTests: true
+    condition: succeededOrFailed()
+
+- job : Integration
+  displayName : 'Integration: nightly_cpu_test'
+  dependsOn : Smoke
+  timeoutInMinutes: 150
+  condition: succeeded('Smoke')
+  
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+# vars specific to this job
+  variables:
+  - group : AzureKeyVaultSecrets
+
+  steps:
+
+  - script: | 
+      az login --service-principal -u $(ClientID) -p $(ClientSecret) --tenant $(TenantID)
+    displayName: 'Login to Azure'
+
+  - template: env-setup.yml # template reference
+
+  - script: | 
+    Set up conda environment && \
+    pytest tests/unit -m "yourtestmarkers" --junitxml=reports/test-unit.xml && \
+    conda deactivate
+    displayName: 'pytest'
+
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results **/test-*.xml'
+    inputs:
+      testResultsFiles: '**/test-*.xml'
+      failTaskOnFailedTests: true
+    condition: succeededOrFailed()

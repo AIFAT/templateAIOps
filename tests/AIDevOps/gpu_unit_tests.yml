@@ -1,0 +1,38 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+#
+variables:
+- group: AzureKeyVaultSecrets
+
+trigger: none
+
+pr:
+- staging 
+- master
+  
+pool:
+ vmImage: 'private pool or AML'
+
+steps:
+
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.6'
+    architecture: 'x64'
+  displayName: 'Use Python 3.6'
+
+
+- template: env-setup.yml # if common setup is used
+
+- script: | 
+  Set up conda environment && \
+  pytest tests/unit -m "yourtestmarkers" --junitxml=reports/test-unit.xml && \
+  conda deactivate
+  displayName: 'pytest'
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results **/test-*.xml'
+  inputs:
+    testResultsFiles: '**/test-*.xml'
+    failTaskOnFailedTests: true
+  condition: succeededOrFailed()

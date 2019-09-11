@@ -27,6 +27,14 @@ benchmarks: optional
    - if metrics are calculated on the models in repo, this is a handy place to store
 docker: optional
    - Readme explains common docker image creation and use
+scripts: recommended
+   - Contains scripts for setup, environment.yml, etc
+tests: recommended
+   - tests/unit, tests/smoke, tests/integration
+     These folders store the unit, smoke and integration tests. Each are described in the README.md in tests
+   - tests/AIDevOps
+     As MLOps tends to refer to pipelines that train and deploy models, a different name was selected.  This folder will contain the DevOps pipeline files to run build and tests in unit/smoke/integration.
+
 tools: suggested
    - this includes files like flake8, pre-commit file, pyproject.toml (set char per line)
 
@@ -78,9 +86,8 @@ Suggested Feature Request:
 ```
 
 
-
-Questions:
+Open Questions:
 - do we want to force autorun of precommit like pep8
 - MANIFEST.in - put in what folder?
 - environment.yml - where?
-
+- preferences on location to store pypi files?

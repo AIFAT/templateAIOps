@@ -7,7 +7,13 @@ variables:
 
 trigger: none
 
-pr: none # set up cron in the devops ui
+schedules:
+- cron: "0 0 * * *"
+  displayName: Daily midnight build
+  branches:
+    include:
+      - master
+  always: true
 
 
 jobs:

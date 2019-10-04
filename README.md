@@ -45,6 +45,13 @@ DevOps pipelines
 - recommend keyvault for secrets/subscription info
 - Pep8 - make requirement?
 
+## NOTE When using Conda in your pipeline
+This devops bug fix is needed:
+
+- bash: |
+    echo "##vso[task.prependpath]/data/anaconda/bin"
+  displayName: Add Conda to PATH
+
 Recommend Issue templates:
 - Recommend both Bug Report and Feature Request Templates
 
